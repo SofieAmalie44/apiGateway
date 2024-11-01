@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  api_gateway:
+    build: ./api_gateway
+    ports:
+      - "5000:5000"
+    depends_on:
+      - guest_service
+      - reservations_service
+      - hotel_reviews
+      - room_services
+    networks:
+      - hotel_network
+
+  guest_service:
+    image: sofieamalie44/guest_service
+    networks:
+      - hotel_network
+
+  reservations_service:
+    image: natazja/reservations_service
+    networks:
+      - hotel_network
+
+  hotel_reviews:
+    image: viktorbach/hotel_reviews
+    networks:
+      - hotel_network
+
+  room_services:
+    image: sofieamalie44/room_services
+    networks:
+      - hotel_network
+
+networks:
+  hotel_network:
+    driver: bridge
